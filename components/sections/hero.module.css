@@ -3,6 +3,13 @@
   animation: hero-media-enter 1200ms var(--ease-out) both;
 }
 
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .eyebrow,
 .title,
 .description,
@@ -21,6 +28,12 @@
 
 .signal {
   animation: hero-signal-enter 520ms var(--ease-out) 520ms both;
+}
+
+@media (min-width: 640px) {
+  .image {
+    object-position: 67% center;
+  }
 }
 
 @keyframes hero-media-enter {

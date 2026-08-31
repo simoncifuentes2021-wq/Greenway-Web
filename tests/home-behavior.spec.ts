@@ -56,6 +56,18 @@ test('Hero runs its editorial entrance sequence once on load', async ({ page }) 
   await expect(title).toHaveCSS('opacity', '1');
 });
 
+test('Hero loads the mobile and desktop art direction for each viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/', { waitUntil: 'networkidle' });
+  const heroImage = page.locator('#home-hero picture img');
+  await expect(heroImage).toBeVisible();
+  expect(await heroImage.evaluate((image: HTMLImageElement) => image.currentSrc)).toContain('headercelular.png');
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.reload({ waitUntil: 'networkidle' });
+  expect(await heroImage.evaluate((image: HTMLImageElement) => image.currentSrc)).toContain('header.png');
+});
+
 test('reduced motion disables smooth scrolling', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
