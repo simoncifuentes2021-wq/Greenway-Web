@@ -89,6 +89,33 @@ test('confirmed metrics animate when visible and finish at their approved values
   await expect(metrics.nth(2)).not.toHaveText('42.000');
 });
 
+test('process timeline connects orbit edges and responds to keyboard selection', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/', { waitUntil: 'networkidle' });
+
+  const section = page.locator('[aria-labelledby="process-title"]');
+  await section.scrollIntoViewIfNeeded();
+  const steps = section.locator('ol > li');
+  const buttons = section.getByRole('button', { name: /^Etapa / });
+  await expect(buttons).toHaveCount(5);
+  await expect(buttons.first()).toHaveAttribute('aria-pressed', 'true');
+
+  const firstVisual = await steps.nth(0).locator('button > span').first().boundingBox();
+  const secondVisual = await steps.nth(1).locator('button > span').first().boundingBox();
+  const connector = await steps.nth(0).locator(':scope > span[aria-hidden="true"]').boundingBox();
+  expect(firstVisual).not.toBeNull();
+  expect(secondVisual).not.toBeNull();
+  expect(connector).not.toBeNull();
+  expect(connector!.x).toBeGreaterThanOrEqual(firstVisual!.x + firstVisual!.width - 1);
+  expect(connector!.x + connector!.width).toBeLessThanOrEqual(secondVisual!.x + 1);
+
+  await buttons.nth(3).focus();
+  await expect(buttons.nth(3)).toBeFocused();
+  await expect(buttons.nth(3)).toHaveAttribute('aria-pressed', 'true');
+  await expect(steps.nth(0)).toHaveAttribute('data-state', 'complete');
+  await expect(steps.nth(3)).toHaveAttribute('data-state', 'active');
+});
+
 test('all internal Home links resolve successfully', async ({ page, request }) => {
   await page.goto('/');
   const hrefs = await page.locator('a[href^="/"]').evaluateAll((links) =>

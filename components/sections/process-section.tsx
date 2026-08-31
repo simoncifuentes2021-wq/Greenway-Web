@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import type { CSSProperties, PointerEvent } from 'react';
 import { processSteps } from '@/data/home';
 import styles from './process-section.module.css';
 
@@ -9,8 +13,44 @@ const trustPoints = [
 ] as const;
 
 export function ProcessSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    section.dataset.motionReady = 'true';
+
+    if (reduceMotion) {
+      section.dataset.visible = 'true';
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        section.dataset.visible = 'true';
+        observer.disconnect();
+      },
+      { threshold: 0.22, rootMargin: '0px 0px -8% 0px' },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  const previewStep = (event: PointerEvent<HTMLButtonElement>, index: number) => {
+    if (event.pointerType === 'mouse') setActiveStep(index);
+  };
+
   return (
-    <section aria-labelledby="process-title" className={styles.section}>
+    <section
+      ref={sectionRef}
+      aria-labelledby="process-title"
+      className={styles.section}
+    >
       <div className={`container-site ${styles.inner}`}>
         <div className={styles.heading}>
           <p className={styles.eyebrow}>Cómo trabajamos</p>
@@ -23,20 +63,37 @@ export function ProcessSection() {
 
         <ol className={styles.timeline}>
           {processSteps.map((step, index) => (
-            <li key={step.number} className={styles.step}>
-              <div className={styles.visual} aria-hidden="true">
-                <span className={styles.number}>{step.number}</span>
-                <span className={styles.orbit}>
-                  <span className={styles.icon}>
-                    <ProcessIcon index={index} />
+            <li
+              key={step.number}
+              className={styles.step}
+              data-state={index < activeStep ? 'complete' : index === activeStep ? 'active' : 'upcoming'}
+              style={{ '--step-index': index } as CSSProperties}
+            >
+              {index < processSteps.length - 1 ? <span className={styles.connector} aria-hidden="true" /> : null}
+
+              <button
+                type="button"
+                className={styles.stepButton}
+                aria-label={`Etapa ${step.number}: ${step.title}`}
+                aria-pressed={index === activeStep}
+                onClick={() => setActiveStep(index)}
+                onFocus={() => setActiveStep(index)}
+                onPointerEnter={(event) => previewStep(event, index)}
+              >
+                <span className={styles.visual} aria-hidden="true">
+                  <span className={styles.number}>{step.number}</span>
+                  <span className={styles.orbit}>
+                    <span className={styles.icon}>
+                      <ProcessIcon index={index} />
+                    </span>
                   </span>
                 </span>
-              </div>
 
-              <div className={styles.stepCopy}>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
+                <span className={styles.stepCopy}>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </span>
+              </button>
             </li>
           ))}
         </ol>
