@@ -49,25 +49,52 @@ const examples = [
 
 export function ProjectsSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const updatePreference = () => setReducedMotion(preference.matches);
+    const viewport = window.matchMedia('(max-width: 760px)');
+    const updateViewport = () => setIsMobile(viewport.matches);
     updatePreference();
+    updateViewport();
     preference.addEventListener('change', updatePreference);
+    viewport.addEventListener('change', updateViewport);
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.1 });
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => { preference.removeEventListener('change', updatePreference); observer.disconnect(); };
+    return () => {
+      preference.removeEventListener('change', updatePreference);
+      viewport.removeEventListener('change', updateViewport);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
-    if (reducedMotion || !visible) return;
+    if (reducedMotion || isMobile || !visible) return;
     const timer = window.setTimeout(() => setActive((current) => (current + 1) % examples.length), 7000);
     return () => window.clearTimeout(timer);
-  }, [active, reducedMotion, visible]);
+  }, [active, isMobile, reducedMotion, visible]);
+
+  const handleMobileScroll = () => {
+    const track = mobileTrackRef.current;
+    const firstCard = track?.firstElementChild;
+    if (!track || !(firstCard instanceof HTMLElement)) return;
+    const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0;
+    const next = Math.round(track.scrollLeft / (firstCard.offsetWidth + gap));
+    setActive(Math.max(0, Math.min(examples.length - 1, next)));
+  };
+
+  const goToMobileCard = (index: number) => {
+    const track = mobileTrackRef.current;
+    const card = track?.children[index];
+    if (!(card instanceof HTMLElement)) return;
+    track?.scrollTo({ left: card.offsetLeft - (track.firstElementChild instanceof HTMLElement ? track.firstElementChild.offsetLeft : 0), behavior: reducedMotion ? 'instant' : 'smooth' });
+    setActive(index);
+  };
 
   return (
     <section ref={sectionRef} aria-labelledby="projects-title" className={styles.section}>
@@ -119,6 +146,46 @@ export function ProjectsSection() {
           <button type="button" onClick={() => setActive((current) => (current + 1) % examples.length)} aria-label="Proyecto siguiente" className={`${styles.arrow} ${styles.next}`}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
           </button>
+
+          <div ref={mobileTrackRef} className={styles.mobileTrack} onScroll={handleMobileScroll} aria-label="Desliza para explorar proyectos">
+            {examples.map((example, index) => (
+              <article key={example.category} className={styles.mobileCard} aria-label={`Ejemplo ${index + 1} de ${examples.length}`}>
+                <div className={styles.mobileMedia}>
+                  <Image src={example.image} alt={example.imageAlt} fill sizes="(max-width: 760px) 84vw, 0px" style={{ objectPosition: example.imagePosition }} />
+                  <span className={styles.mobileImageIndex}>{String(index + 1).padStart(2, '0')} <span>/ {String(examples.length).padStart(2, '0')}</span></span>
+                  <span className={styles.mobilePhotoNote}>Fotografía referencial · reemplazar por material autorizado</span>
+                </div>
+                <div className={styles.mobileStory}>
+                  <div className={styles.storyTop}>
+                    <p className={styles.category}><span aria-hidden="true" />{example.category}</p>
+                    <span className={styles.demoBadge}>Caso ilustrativo</span>
+                  </div>
+                  <div className={styles.mobileStoryCopy}>
+                    <h3>{example.title}</h3>
+                    <p>{example.description}</p>
+                  </div>
+                  <div className={styles.mobileMetrics} aria-label="Cifras de ejemplo">
+                    {example.metrics.map((metric) => (
+                      <div key={metric.label} className={styles.metric}>
+                        <strong>{metric.value}</strong>
+                        <span>{metric.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.mobileControls} aria-label="Navegación de proyectos">
+          <span>Desliza para descubrir</span>
+          <div className={styles.mobileDots}>
+            {examples.map((example, index) => (
+              <button key={example.category} type="button" aria-label={`Mostrar proyecto ${index + 1}`} aria-current={active === index ? 'true' : undefined} onClick={() => goToMobileCard(index)} />
+            ))}
+          </div>
+          <span className={styles.mobileCount}>{String(active + 1).padStart(2, '0')} / {String(examples.length).padStart(2, '0')}</span>
         </div>
 
         <p className={styles.disclaimer}>Vista de diseño. Eventos, fotografías y cifras son ilustrativos; no corresponden a resultados reales de Greenway.</p>
