@@ -20,7 +20,7 @@ export function TechnologyExperience({ children }: { children: ReactNode }) {
     onFrame: (angle) => {
       if (innerWidth >= 1100) return;
       ref.current?.querySelectorAll<HTMLElement>('[data-depth-plane]').forEach((plane, index) => {
-        plane.style.transform = engine.state.reduced ? '' : `perspective(1200px) rotateY(${clamp(angle / 8, -2, 2)}deg) translateX(${clamp(angle, -16, 16) * (index ? -.3 : .2)}px)`;
+        plane.style.translate = engine.state.reduced ? '' : `${clamp(angle, -16, 16) * (index ? -.3 : .2)}px 0`;
       });
     },
   });

@@ -11,20 +11,20 @@ export function PortalSection() {
   return (
     <section id="portal" aria-labelledby="portal-title" className={`section-space relative scroll-mt-20 overflow-hidden text-white ${styles.section}`}>
       <GreenwayFlow variant="technology" className={styles.path} />
-      <div className="container-site relative grid items-center gap-14 lg:grid-cols-[.82fr_1.18fr] lg:gap-20">
-        <div>
+      <div className={`container-site relative grid items-center gap-14 lg:grid-cols-[.82fr_1.18fr] lg:gap-20 ${styles.content}`}>
+        <div className={styles.copy}>
           <p className="eyebrow text-eco">Greenway / AppGreenway</p>
           <h2 id="portal-title" data-story-heading className={styles.title}>Portal de gestión y trazabilidad</h2>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-white/75">Contamos con una <strong className="font-semibold text-white">plataforma digital exclusiva</strong> donde el cliente puede acceder a la información clave de los servicios contratados, en tiempo real y con total trazabilidad.</p>
-          <h3 className="mt-8 font-display text-lg font-bold text-white">En este portal encontrarás:</h3>
-          <ul className="mt-3 grid gap-x-7 gap-y-3 sm:grid-cols-2">
+          <p className={`mt-7 max-w-xl text-lg leading-8 text-white/75 ${styles.description}`}>Contamos con una <strong className="font-semibold text-white">plataforma digital exclusiva</strong> donde el cliente puede acceder a la información clave de los servicios contratados, en tiempo real y con total trazabilidad.</p>
+          <h3 className={`mt-8 font-display text-lg font-bold text-white ${styles.featureTitle}`}>En este portal encontrarás:</h3>
+          <ul className={`mt-3 grid gap-x-7 gap-y-3 sm:grid-cols-2 ${styles.features}`}>
             {portalCapabilities.map((capability) => (
-              <li key={capability} className="flex items-start gap-3 border-t border-white/15 pt-3 text-sm leading-6 text-white/85"><span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-eco" />{capability}</li>
+              <li key={capability} className={`flex items-start gap-3 border-t border-white/15 pt-3 text-sm leading-6 text-white/85 ${styles.feature}`}><span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-eco" />{capability}</li>
             ))}
           </ul>
-          <p className="mt-7 max-w-xl text-sm leading-6 text-white/70">Esta herramienta fortalece la transparencia y te permite demostrar el compromiso ambiental de tu evento ante auspiciadores, instituciones o auditorías. La plataforma está pensada para los servicios que requieren reportabilidad y trazabilidad.</p>
-          <ButtonLink href={clientPortalUrl} className="mt-10 !border-white !bg-white !text-forest hover:!bg-ivory">Acceder al portal <span aria-hidden="true">→</span></ButtonLink>
-          <p id="portal-pendiente" tabIndex={-1} className="mt-3 text-xs text-white/70">Enlace definitivo pendiente de confirmación.</p>
+          <p className={`mt-7 max-w-xl text-sm leading-6 text-white/70 ${styles.closing}`}>Esta herramienta fortalece la transparencia y te permite demostrar el compromiso ambiental de tu evento ante auspiciadores, instituciones o auditorías. La plataforma está pensada para los servicios que requieren reportabilidad y trazabilidad.</p>
+          <ButtonLink href={clientPortalUrl} className={`mt-10 !border-white !bg-white !text-forest hover:!bg-ivory ${styles.portalButton}`}>Acceder al portal <span aria-hidden="true">→</span></ButtonLink>
+          <p id="portal-pendiente" tabIndex={-1} className={`mt-3 text-xs text-white/70 ${styles.linkNote}`}>Enlace definitivo pendiente de confirmación.</p>
         </div>
 
         <TechnologyExperience>
