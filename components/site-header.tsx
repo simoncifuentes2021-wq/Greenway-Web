@@ -115,7 +115,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           <ul className="container-site flex flex-col">
             {navigation.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} aria-current={(item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)) ? 'page' : undefined} className="flex min-h-16 items-center justify-between border-b border-line font-display text-2xl font-semibold tracking-[-.04em] text-forest aria-[current=page]:text-petroleum" onClick={() => setOpen(false)}>{item.label}<span aria-hidden="true" className="text-sm font-normal text-muted">↗</span></Link>
+                <Link href={item.href} aria-current={(item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)) ? 'page' : undefined} className="group flex min-h-16 items-center justify-between border-b border-line font-display text-2xl font-semibold tracking-[-.04em] text-forest aria-[current=page]:text-petroleum" onClick={() => setOpen(false)}>{item.label}<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="size-[1.15rem] shrink-0 text-muted transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"><path d="M7 17 17 7M8 7h9v9" /></svg></Link>
               </li>
             ))}
           </ul>

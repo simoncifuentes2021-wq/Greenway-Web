@@ -27,10 +27,7 @@
 .instruction { margin-top: 1.5rem; color: #c8d3bb; font-size: .75rem; line-height: 1.6; }
 .instruction span { margin-left: .6rem; }
 .orbitPlane { position: absolute; inset: 0; }
-.brandRoute { position: absolute; inset: -10% 5%; width: 90%; height: 120%; color: #b5c69a; opacity: .25; pointer-events: none; }
-.orbitLine { fill: none; stroke: #a6b58a; stroke-width: .8; opacity: .3; }
-.connection, .selectedConnection { stroke: #a6b58a; stroke-width: .8; opacity: .18; transition: opacity var(--motion-normal) ease; }
-.selectedConnection { stroke-width: 1.6; opacity: .9; }
+.brandRoute { position: absolute; inset: -10% 5%; width: 90%; height: 120%; color: #b5c69a; opacity: 0; pointer-events: none; }
 .intro { position: relative; z-index: 6; padding-right: 1rem; }
 .intro h2 { max-width: 29rem; margin: 1rem 0 0; font-family: var(--font-manrope); font-size: clamp(3rem, 4.3vw, 4.75rem); font-weight: 650; letter-spacing: -.058em; line-height: 1.02; text-wrap: balance; }
 .intro h2 em { color: var(--eco-accent); font-style: normal; }
@@ -52,6 +49,7 @@
 .centerLink { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: .55rem; margin-top: .85rem; padding: .65rem 1rem; border: 1px solid rgb(255 255 255 / .75); border-radius: 999px; background: rgb(248 250 244 / .96); color: var(--forest); font-size: .72rem; font-weight: 750; letter-spacing: 0; text-transform: none; box-shadow: 0 .5rem 1.5rem rgb(0 0 0 / .25); transition: background-color 180ms ease, transform 180ms var(--ease-out); }
 .centerLink:hover { background: #dfe9d4; transform: translateY(-2px); }
 .centerLink:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+.centerLink svg { width: 1rem; height: 1rem; }
 .reference { position: absolute; right: 50%; top: 7%; z-index: 6; color: rgb(255 255 255 / .58); font-size: .5rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; transform: translateX(50%); white-space: nowrap; }
 .desktopNodes { z-index: 4; pointer-events: none; }
 .node { position: absolute; display: flex; width: 9.5rem; align-items: center; gap: .55rem; padding: 0; border: 0; background: transparent; color: rgb(255 255 255 / .7); text-align: left; cursor: pointer; pointer-events: auto; transform: translate(-1.675rem, -50%); transition: transform 160ms var(--ease-out), color 180ms ease, opacity 180ms ease; }
@@ -119,13 +117,10 @@
 .orbitPlane[data-dragging='true'] button { pointer-events: none; }
 .node { transform-origin: 1.675rem center; }
 .nodeLeft { transform-origin: calc(100% - 1.675rem) center; }
-.connection, .selectedConnection { fill: none; stroke-dasharray: 1; }
-.selectedConnection { stroke: #c7d7ac; }
 .node[data-visited='true'] .nodeIcon::after { content: ''; position: absolute; right: 2px; top: 2px; width: 4px; height: 4px; background: #cbdab5; border-radius: 50%; }
 .nodeIcon { position: relative; }
 .node[data-preview='true'] .nodeIcon { background: #344d38; border-color: #c7d7ac; }
 .section:not([data-preview='']) .centerFeedback { opacity: .65; }
-.relation { fill: none; stroke: #d9e4c4; stroke-width: 1.5; stroke-dasharray: 5 8; animation: relation-enter 600ms var(--ease-out) both; }
 .dragHint { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: .55rem; letter-spacing: .18em; color: #c4d1b8; pointer-events: none; }
 .touchCore { position: absolute; inset: 0; }
 .touchCore .centerBrand { bottom: 12%; inset-inline: 5%; }
@@ -134,4 +129,3 @@
 .touchCore .centerIcon { width: 2.2rem; height: 2.2rem; }
 .touchCore .reference { top: 12%; font-size: .4rem; }
 .touchCore .centerLink { min-height: 44px; margin-top: .55rem; padding: .5rem .8rem; font-size: .68rem; }
-@keyframes relation-enter { from { opacity: 0; } to { opacity: .8; } }

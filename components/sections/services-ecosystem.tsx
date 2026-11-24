@@ -6,11 +6,9 @@ import { EcosystemSignal } from '@/components/ui/ecosystem-signal';
 import { ServiceIcon } from '@/components/ui/service-icon';
 import { services } from '@/data/site';
 import styles from './services-ecosystem.module.css';
-import { GreenwayFlow } from '@/components/living-system/greenway-flow';
 import { useLivingSystem } from '@/components/living-system/living-provider';
 import { useKineticDrag } from '@/hooks/use-kinetic-drag';
 import { ServiceOrbit } from '@/components/living-system/service-orbit';
-import { areServicesRelated } from '@/data/service-relations';
 import { wrapIndex } from '@/utils/motion-physics';
 
 const nodes = [
@@ -46,7 +44,6 @@ export function ServicesEcosystem() {
   const [hasActivated, setHasActivated] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
   const [visited, setVisited] = useState(() => new Set(engine.visited));
-  const [related, setRelated] = useState<[string, string] | null>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const coreFeedbackRef = useRef<HTMLDivElement>(null);
@@ -67,21 +64,6 @@ export function ServicesEcosystem() {
       });
     },
   });
-  useEffect(() => {
-    if (!related) return;
-    const timer = setTimeout(() => setRelated(null), 2200);
-    return () => clearTimeout(timer);
-  }, [related]);
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    return engine.watch(section, (frame) => {
-      if (!frame.visible) return;
-      const progress = frame.reduced ? 1 : Math.min(1, Math.max(0, (frame.progress - .05) * 3.5));
-      section.querySelectorAll<SVGPathElement>('[data-living-connection]').forEach((path, index) => { path.style.strokeDashoffset = String(1 - Math.max(0, Math.min(1, progress * 1.3 - index * .025))); });
-    }, 'connecting');
-  }, [engine]);
-
   useEffect(() => {
     const feedback = coreFeedbackRef.current;
     const aura = coreAuraRef.current;
@@ -109,10 +91,9 @@ export function ServicesEcosystem() {
     engine.emit({ type: 'node', source: sectionRef.current ?? undefined, service: slug });
     setVisited(new Set(engine.visited));
     setHasActivated(true);
-    if (slug === selectedSlug) return;
-    setRelated(areServicesRelated(selectedSlug, slug) ? [selectedSlug, slug] : null);
-    setSelectedSlug(slug);
     setSignalKey((current) => current + 1);
+    if (slug === selectedSlug) return;
+    setSelectedSlug(slug);
   };
 
   const moveSelection = (direction: number) => {
@@ -135,11 +116,7 @@ export function ServicesEcosystem() {
 
           <div className={styles.orbitStage} aria-label="Ecosistema interactivo de servicios">
             <div ref={orbitRef} data-depth-plane data-service-drag="desktop" className={styles.orbitPlane}>
-            <GreenwayFlow variant="services" className={styles.brandRoute} />
             <svg data-orbit-rotate className={styles.connections} viewBox="0 0 1000 1000" aria-hidden="true">
-              <ellipse cx="500" cy="500" rx="460" ry="460" className={styles.orbitLine} />
-              {nodes.map((node) => <path key={node.slug} data-living-connection pathLength="1" d={`M${node.x * 10} ${node.y * 10} Q${500 + (node.x - 50) * 3} ${500 + (node.y - 50) * 7} 500 500`} className={node.slug === (hovered ?? activeSlug) ? styles.selectedConnection : styles.connection} />)}
-              {related ? <path key={related.join('-')} data-service-relation d={`M${nodes.find((node) => node.slug === related[0])!.x * 10} ${nodes.find((node) => node.slug === related[0])!.y * 10} Q500 180 ${nodes.find((node) => node.slug === related[1])!.x * 10} ${nodes.find((node) => node.slug === related[1])!.y * 10}`} className={styles.relation} /> : null}
               {hasActivated ? <EcosystemSignal key={signalKey} x={activeNode.x} y={activeNode.y} /> : null}
             </svg>
 
@@ -148,7 +125,7 @@ export function ServicesEcosystem() {
               <Image key={`center-media-${centerSlug}`} src={centerMedia.src} alt={`Imagen temporal de referencia para ${centerActive.name}`} fill sizes="(min-width: 1200px) 21rem, 82vw" className={styles.centerImage} style={{ objectPosition: centerMedia.position }} />
               <div className={styles.centerShade} />
               <div ref={coreFeedbackRef} className={styles.centerFeedback} aria-hidden="true" />
-              <div key={`center-brand-${centerSlug}`} className={styles.centerBrand}><span className={styles.centerIcon}><ServiceIcon slug={centerSlug} /></span><p>{centerActive.name}</p><strong>{centerLabel}</strong><a className={styles.centerLink} href={`/servicios/${centerSlug}`} aria-label={`Conocer servicio: ${centerActive.name}`}>Conocer servicio <span aria-hidden="true">↗</span></a></div>
+              <div key={`center-brand-${centerSlug}`} className={styles.centerBrand}><span className={styles.centerIcon}><ServiceIcon slug={centerSlug} /></span><p>{centerActive.name}</p><strong>{centerLabel}</strong><a className={styles.centerLink} href={`/servicios/${centerSlug}`} aria-label={`Conocer servicio: ${centerActive.name}`}>Conocer servicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h13m-5-5 5 5-5 5" /></svg></a></div>
               <span className={styles.reference}>Visual referencial</span>
             </div>
 
@@ -188,11 +165,11 @@ export function ServicesEcosystem() {
         </div>
 
         <div className={styles.mobileArea}>
-          <ServiceOrbit active={activeSlug} visited={visited} onSelect={selectService} onStep={moveSelection}>
+          <ServiceOrbit active={activeSlug} visited={visited} hasActivated={hasActivated} signalKey={signalKey} onSelect={selectService} onStep={moveSelection}>
           <div id="ecosystem-mobile-center" className={styles.touchCore} aria-live="polite">
             <Image key={`mobile-media-${centerSlug}`} src={centerMedia.src} alt={`Imagen temporal de referencia para ${centerActive.name}`} fill sizes="82vw" className={styles.centerImage} style={{ objectPosition: centerMedia.position }} />
             <div className={styles.centerShade} />
-            <div key={`mobile-brand-${centerSlug}`} className={styles.centerBrand}><span className={styles.centerIcon}><ServiceIcon slug={centerSlug} /></span><p>{centerActive.name}</p><strong>{centerLabel}</strong><a className={styles.centerLink} href={`/servicios/${centerSlug}`} aria-label={`Conocer servicio: ${centerActive.name}`}>Conocer servicio <span aria-hidden="true">↗</span></a></div>
+            <div key={`mobile-brand-${centerSlug}`} className={styles.centerBrand}><span className={styles.centerIcon}><ServiceIcon slug={centerSlug} /></span><p>{centerActive.name}</p><strong>{centerLabel}</strong><a className={styles.centerLink} href={`/servicios/${centerSlug}`} aria-label={`Conocer servicio: ${centerActive.name}`}>Conocer servicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h13m-5-5 5 5-5 5" /></svg></a></div>
             <span className={styles.reference}>Visual referencial</span>
           </div>
           </ServiceOrbit>
