@@ -1,0 +1,9 @@
+.home { outline: none; }
+/* Secondary chapters share a quieter editorial scale between the four key scenes. */
+.home section[aria-labelledby='team-title'] { background: var(--ivory); }
+.home section[aria-labelledby='team-title'] h2 { font-size: clamp(2.3rem, 3.8vw, 3.8rem); font-weight: 540; line-height: 1.06; }
+.home section[aria-labelledby='team-title'] [data-reference-media] { border-radius: 0 0 0 6rem; }
+.home section[aria-labelledby='clients-title'] { background: var(--ivory); }
+@media (max-width: 639px) {
+  .home section[aria-labelledby='team-title'] [data-reference-media] { border-radius: 0 0 0 3rem; }
+}

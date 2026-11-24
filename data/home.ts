@@ -68,13 +68,11 @@ export const featuredProjects: ProjectPlaceholder[] = [
 ];
 
 export const portalCapabilities = [
-  'Informes de gestión ambiental',
-  'Certificados',
-  'Datos de reciclaje',
-  'Indicadores',
-  'Evidencias fotográficas',
-  'Historial de servicios',
-  'Información por evento',
+  'Informes de gestión ambiental post-evento.',
+  'Certificados de disposición final de residuos.',
+  'Datos de reciclaje y emisiones evitadas.',
+  'Fotografías del proceso y puntos limpios instalados.',
+  'Historial de servicios prestados por evento o locación.',
 ];
 
 export const energySolutions: EnergySolution[] = [
@@ -109,12 +107,26 @@ export const impactMetrics = [
   { value: 'XX', label: 'Emisiones evitadas o reducidas' },
 ];
 
-export const organizations = [
-  'Universidad Andrés Bello',
-  'Servicio de Cooperación Técnica',
-  'Ministerio del Medio Ambiente',
-  'Corporación Nacional Indígena',
+export const organizationCases = [
+  {
+    organization: 'Universidad Andrés Bello',
+    description: 'Asesoría en cumplimiento normativo ambiental, incluyendo carga en la plataforma RETC (Ventanilla Única del Ministerio del Medio Ambiente).',
+  },
+  {
+    organization: 'Servicio de Cooperación Técnica',
+    description: 'Asesoría virtual en sustentabilidad dirigida a emprendedores y emprendedoras de micro y pequeñas empresas a nivel nacional.',
+  },
+  {
+    organization: 'Ministerio del Medio Ambiente',
+    description: 'Diseño y operación integral de planes de manejo de residuos comunales en Cañete, Tirúa y Contulmo.',
+  },
+  {
+    organization: 'Corporación Nacional Indígena',
+    description: 'Implementación de un programa de reciclaje y gestión de residuos en comunidades indígenas del lago Lleu Lleu.',
+  },
 ];
+
+export const organizations = organizationCases.map((item) => item.organization);
 
 export const differentiators = [
   { title: '+10 años de experiencia', description: 'Conocimiento acumulado en proyectos y operaciones ambientales.' },

@@ -1,0 +1,10 @@
+.flow { pointer-events: none; overflow: visible; contain: style; }
+.plane { transform-origin: 320px 320px; }
+.breath { transform-origin: 320px 320px; animation: breathe 9.7s cubic-bezier(.45,0,.55,1) infinite alternate; animation-play-state: paused; }
+.flow[data-running='true'] .breath { animation-play-state: running; }
+.grid { opacity: 0; transform-origin: center; }
+.flow[data-quality='minimal'] [data-flow-particle]:nth-of-type(n+3),
+.flow[data-quality='balanced'] [data-flow-particle]:nth-of-type(n+5) { display: none; }
+@keyframes breathe { 0% { transform: scale(.998) rotate(-.15deg); opacity: .88; } 57% { transform: scale(1.006) rotate(.12deg); opacity: 1; } 100% { transform: scale(1.009) rotate(.18deg); opacity: .94; } }
+@media (prefers-reduced-motion: reduce) { .breath { animation: none; } .plane { transform: none !important; } }
+@media (max-width: 767px) { .flow [data-flow-path]:last-of-type { display: none; } }

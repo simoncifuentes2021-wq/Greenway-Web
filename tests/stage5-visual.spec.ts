@@ -64,7 +64,7 @@ const sections = [
   ['featured-services', '[aria-labelledby="featured-services-title"]'],
   ['process', '[aria-labelledby="process-title"]'],
   ['projects', '[aria-labelledby="projects-title"]'],
-  ['ecoevent', '[aria-labelledby="portal-title"]'],
+  ['appgreenway', '[aria-labelledby="portal-title"]'],
   ['energy', '[aria-labelledby="solar-title"]'],
   ['final-cta', '[aria-labelledby="final-cta-title"]'],
 ] as const;

@@ -1,3 +1,4 @@
+import { InternalFlow } from '@/components/living-system/internal-flow';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SiteFooter } from '@/components/site-footer';
@@ -16,6 +17,7 @@ export function CompaniesPage() {
       <SiteHeader />
       <main>
         <section className="internal-hero pb-16 pt-28 text-white sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
+          <InternalFlow />
           <div className="container-site">
             <Breadcrumbs light items={[{ name: 'Inicio', href: '/' }, { name: 'Empresas e instituciones', href: '/empresas' }]} />
             <div className="mt-12 grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">

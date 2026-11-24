@@ -93,7 +93,7 @@ test('desktop ecosystem exposes ten keyboard-operable service nodes', async ({ p
   await page.keyboard.press('Enter');
   await expect(nodes.nth(1)).toHaveAttribute('aria-pressed', 'true');
   await page.waitForTimeout(280);
-  await expect(ecosystem.locator('#ecosystem-center p')).toHaveText('Energías Renovables');
+  await expect(ecosystem.locator('#ecosystem-center p')).toHaveText('Limpieza');
   const signal = ecosystem.locator('.ecosystem-signal-line');
   await expect(signal).toHaveCount(1);
   expect(await signal.evaluate((element) => element.getAnimations().length)).toBeGreaterThan(0);
@@ -118,7 +118,7 @@ test('mobile ecosystem uses a dedicated touch selector and contextual panel', as
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/', { waitUntil: 'networkidle' });
   const ecosystem = page.locator('[aria-labelledby="ecosistema-title"]');
-  const mobility = ecosystem.getByRole('button', { name: 'Movilidad' });
+  const mobility = ecosystem.getByRole('button', { name: 'Movilidad Sostenible', exact: true });
   await mobility.click();
   await expect(mobility).toHaveAttribute('aria-pressed', 'true');
   await expect(ecosystem.locator('#service-panel-mobile h3')).toHaveText('Movilidad Sostenible');

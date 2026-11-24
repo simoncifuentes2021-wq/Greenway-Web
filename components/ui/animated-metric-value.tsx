@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useLivingSystem } from '@/components/living-system/living-provider';
 
 export function AnimatedMetricValue({ value, delay = 0 }: { value: string; delay?: number }) {
   const visualRef = useRef<HTMLSpanElement>(null);
+  const engine = useLivingSystem();
 
   useEffect(() => {
     const element = visualRef.current;
@@ -23,7 +25,6 @@ export function AnimatedMetricValue({ value, delay = 0 }: { value: string; delay
     let frame = 0;
     let animation: Animation | null = null;
     let countStart = 0;
-    let running = false;
     const observedElement = element.closest('[data-metric]') ?? element;
 
     const stop = () => {
@@ -31,12 +32,10 @@ export function AnimatedMetricValue({ value, delay = 0 }: { value: string; delay
       animation?.cancel();
       animation = null;
       countStart = 0;
-      running = false;
       element.textContent = finalValue;
     };
 
     const play = () => {
-      running = true;
       countStart = 0;
       element.textContent = `${prefix}0${suffix}`;
       animation = element.animate(
@@ -61,27 +60,21 @@ export function AnimatedMetricValue({ value, delay = 0 }: { value: string; delay
       frame = window.requestAnimationFrame(update);
     };
 
-    let scrollFrame = 0;
-    const updateVisibility = () => {
-      window.cancelAnimationFrame(scrollFrame);
-      scrollFrame = window.requestAnimationFrame(() => {
-        const rect = observedElement.getBoundingClientRect();
-        const visible = rect.top <= window.innerHeight * .8 && rect.bottom >= window.innerHeight * .2;
-        if (visible && !running) play();
-        if (!visible && running) stop();
-      });
-    };
-
-    updateVisibility();
-    window.addEventListener('scroll', updateVisibility, { passive: true });
-    window.addEventListener('resize', updateVisibility);
+    let played = false;
+    const unlisten = engine.onEvent((event) => {
+      if (event.type !== 'metric' || event.source !== observedElement || played) return;
+      played = true;
+      play();
+    });
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const stopOnPreference = () => { if (preference.matches) { played = true; stop(); } };
+    preference.addEventListener('change', stopOnPreference);
     return () => {
-      window.removeEventListener('scroll', updateVisibility);
-      window.removeEventListener('resize', updateVisibility);
-      window.cancelAnimationFrame(scrollFrame);
+      unlisten();
+      preference.removeEventListener('change', stopOnPreference);
       stop();
     };
-  }, [delay, value]);
+  }, [delay, value, engine]);
 
   return (
     <>

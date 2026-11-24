@@ -1,8 +1,10 @@
 import { impactMetrics } from '@/data/home';
+import { GreenwayFlow } from '@/components/living-system/greenway-flow';
 
 export function ImpactSection() {
   return (
-    <section aria-labelledby="impact-title" className="bg-forest py-16 text-white lg:py-24">
+    <section aria-labelledby="impact-title" className="relative isolate overflow-hidden bg-forest py-16 text-white lg:py-24">
+      <GreenwayFlow variant="impact" className="pointer-events-none absolute -right-20 -top-32 -z-10 h-[150%] w-[75%] text-eco opacity-20" />
       <div className="container-site">
         <div className="flex flex-col gap-5 border-b border-white/20 pb-10 lg:flex-row lg:items-end lg:justify-between">
           <div>

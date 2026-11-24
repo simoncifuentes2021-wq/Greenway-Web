@@ -1,16 +1,21 @@
+.section { background: #132c24; isolation: isolate; }
+.section::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 75% 55%, rgb(166 181 138 / .13), transparent 60%); }
+.path { position: absolute; width: 70%; right: -8%; top: -18%; z-index: -1; color: #b8c4a2; opacity: .3; transform: rotate(15deg); }
+.title { margin-top: 1.5rem; font-family: var(--font-manrope); font-size: clamp(2.7rem, 4.6vw, 4.7rem); font-weight: 520; line-height: 1.04; letter-spacing: -.055em; }
+.ownership { margin-top: 1.6rem; color: #c4d0b3; font-size: .8rem; }
 .deviceStage {
   position: relative;
   isolation: isolate;
   min-height: clamp(34rem, 47vw, 43rem);
-  border-left: 1px solid rgb(255 255 255 / 15%);
+  perspective: 1400px;
 }
 
 .deviceStage::before {
   position: absolute;
   inset: 6% -4% 8% 7%;
   z-index: -1;
-  border: 1px solid rgb(255 255 255 / 10%);
-  background: radial-gradient(circle at 62% 48%, rgb(121 168 107 / 20%), transparent 38%), linear-gradient(145deg, rgb(8 27 23 / 72%), rgb(8 27 23 / 18%));
+  border-bottom: 1px solid rgb(255 255 255 / 18%);
+  background: radial-gradient(ellipse at 55% 85%, rgb(0 0 0 / .22), transparent 68%);
   content: '';
 }
 
@@ -44,7 +49,7 @@
 }
 
 .stageLabel strong {
-  color: rgb(255 255 255 / 50%);
+  color: rgb(255 255 255 / 75%);
   font-size: .56rem;
   font-weight: 650;
   letter-spacing: .12em;
@@ -82,7 +87,7 @@
   bottom: 8%;
   display: flex;
   gap: 1.2rem;
-  color: rgb(255 255 255 / 48%);
+  color: rgb(255 255 255 / 72%);
   font-family: var(--font-manrope);
   font-size: .55rem;
   font-weight: 700;
@@ -95,7 +100,7 @@
   right: 3%;
   bottom: -2.15rem;
   width: min(92%, 37rem);
-  color: rgb(255 255 255 / 48%);
+  color: rgb(255 255 255 / 72%);
   font-size: .64rem;
   line-height: 1.5;
   text-align: right;

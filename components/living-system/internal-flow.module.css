@@ -1,0 +1,2 @@
+.flow { position: absolute; z-index: var(--layer-flow-back); width: 65%; height: 150%; right: -10%; top: -20%; color: #c2d0aa; opacity: .2; }
+@media (max-width: 767px) { .flow { width: 110%; right: -45%; opacity: .12; } }

@@ -12,6 +12,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const [overHero, setOverHero] = useState(overlay);
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!overlay) {
@@ -34,15 +35,34 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const main = document.querySelector('main');
+    const footer = document.querySelector('footer');
+    const previousMainInert = main?.inert ?? false;
+    const previousFooterInert = footer?.inert ?? false;
+    if (main) main.inert = true;
+    if (footer) footer.inert = true;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
         menuButtonRef.current?.focus();
       }
+      if (event.key === 'Tab') {
+        const focusable = Array.from(headerRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []).filter((element) => element.getClientRects().length > 0);
+        const first = focusable[0];
+        const last = focusable.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
     };
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    desktop.addEventListener('change', closeOnDesktop);
     window.addEventListener('keydown', onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      if (main) main.inert = previousMainInert;
+      if (footer) footer.inert = previousFooterInert;
+      desktop.removeEventListener('change', closeOnDesktop);
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);
@@ -51,19 +71,20 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 border-b text-white ${overlay ? 'home-header' : ''} ${transparent ? 'border-white/12' : 'border-white/10 shadow-[0_1px_0_rgba(255,255,255,.04)]'}`}
       data-menu-open={open}
       style={{ backgroundColor: transparent ? 'transparent' : 'var(--forest)' }}
     >
-      <div className="home-header-inner container-site flex h-[4.75rem] items-center justify-between gap-8">
-        <Logo light />
+      <div className="home-header-inner container-site flex h-[4.75rem] items-center justify-between gap-4 xl:gap-8">
+        <Logo light prominent />
         <nav aria-label="Navegación principal" className="home-header-navigation hidden lg:block">
-          <ul className="flex items-center gap-7">
+          <ul className="flex items-center gap-4 xl:gap-7">
             {navigation.map((item) => {
               const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
               return (
               <li key={item.href}>
-                <Link href={item.href} aria-current={active ? 'page' : undefined} className={`relative py-2 text-[.82rem] font-semibold text-white transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left after:bg-eco after:transition-transform ${active ? 'after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'}`}>
+                <Link href={item.href} aria-current={active ? 'page' : undefined} className={`relative py-2 text-[.9rem] font-bold text-white transition-colors xl:text-base after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left after:bg-eco after:transition-transform ${active ? 'after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'}`}>
                   {item.label}
                 </Link>
               </li>

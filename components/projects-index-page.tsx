@@ -1,3 +1,4 @@
+import { InternalFlow } from '@/components/living-system/internal-flow';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
@@ -11,6 +12,7 @@ export function ProjectsIndexPage() {
       <SiteHeader />
       <main>
         <section className="internal-hero pb-16 pt-28 text-white sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
+          <InternalFlow />
           <div className="container-site">
             <Breadcrumbs light items={[{ name: 'Inicio', href: '/' }, { name: 'Proyectos', href: '/proyectos' }]} />
             <div className="mt-12 max-w-5xl">

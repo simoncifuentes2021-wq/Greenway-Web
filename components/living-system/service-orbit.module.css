@@ -1,0 +1,16 @@
+.wrapper { width: 100%; }
+.stage { position: relative; width: min(100%, 29rem); aspect-ratio: 1; margin: auto; touch-action: pan-y; user-select: none; }
+.flow { position: absolute; inset: 0; width: 100%; height: 100%; color: #acbd96; opacity: .5; }
+.core { position: absolute; inset: 20%; border-radius: 50%; overflow: hidden; background: var(--forest); box-shadow: 0 15px 35px rgb(0 0 0 / .2); }
+.ring { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
+.ring button { position: absolute; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #728471; border-radius: 50%; background: #153429; color: #e1e8d5; cursor: pointer; pointer-events: auto; transform: translate(-50%, -50%); transition: background-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out); }
+.ring svg { width: 21px; height: 21px; }
+.ring button[aria-pressed='true'] { background: #b7c79e; color: #17392f; box-shadow: 0 0 0 5px rgb(183 199 158 / .1); }
+.ring button[data-visited='true']::after { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #d7e6bf; right: 2px; top: 2px; content: ''; }
+.hint { text-align: center; margin-top: 1.1rem; font-size: .7rem; color: #c7d3be; }
+.hint span { margin-right: .5rem; }
+.controls { display: grid; grid-template-columns: 44px 1fr 44px; gap: .8rem; align-items: center; max-width: 29rem; margin: 1rem auto 0; }
+.controls button { width: 44px; height: 44px; border: 1px solid #728471; border-radius: 50%; cursor: pointer; }
+.controls span { font-family: var(--font-manrope); font-size: .85rem; text-align: center; }
+.stage[data-dragging='true'] .ring button { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .ring { transform: none !important; } .ring button { transform: translate(-50%, -50%) !important; } }

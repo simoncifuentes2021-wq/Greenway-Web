@@ -6,7 +6,7 @@ const newServices = [
   { slug: 'limpieza', title: 'Limpieza para eventos antes, durante y después' },
   { slug: 'economia-circular', title: 'Economía circular para recuperar y reutilizar materiales' },
   { slug: 'asesoria-ambiental', title: 'Asesoría ambiental para eventos y organizaciones' },
-  { slug: 'gestion-y-trazabilidad', title: 'Gestión y trazabilidad ambiental con EcoEvent 360' },
+  { slug: 'gestion-y-trazabilidad', title: 'Gestión y trazabilidad ambiental con AppGreenway' },
   { slug: 'movilidad-sostenible', title: 'Movilidad sostenible para eventos y recintos' },
   { slug: 'sustentabilidad-audiovisual', title: 'Sustentabilidad para producciones audiovisuales' },
 ] as const;
@@ -78,7 +78,7 @@ for (const corporate of corporatePages) {
 
 test('services index exposes ten crawlable service links grouped by need', async ({ page, request }) => {
   await page.goto('/servicios');
-  const serviceLinks = page.locator('main a[href^="/servicios/"]');
+  const serviceLinks = page.locator('section[aria-labelledby="service-groups-title"] a[href^="/servicios/"]');
   await expect(serviceLinks).toHaveCount(10);
   const hrefs = await serviceLinks.evaluateAll((links) => links.map((link) => link.getAttribute('href') as string));
   expect(new Set(hrefs).size).toBe(10);

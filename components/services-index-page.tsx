@@ -1,3 +1,5 @@
+import { InternalFlow } from '@/components/living-system/internal-flow';
+import { ServicesEcosystem } from '@/components/sections/services-ecosystem';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SiteFooter } from '@/components/site-footer';
@@ -39,6 +41,7 @@ export function ServicesIndexPage() {
       <SiteHeader />
       <main>
         <section className="internal-hero pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
+          <InternalFlow />
           <div className="container-site">
             <Breadcrumbs light items={[{ name: 'Inicio', href: '/' }, { name: 'Servicios', href: '/servicios' }]} />
             <div className="mt-12 grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
@@ -54,6 +57,7 @@ export function ServicesIndexPage() {
           </div>
         </section>
 
+        <ServicesEcosystem />
         <section aria-labelledby="service-groups-title" className="section-space bg-ivory">
           <div className="container-site">
             <div className="max-w-3xl">

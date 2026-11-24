@@ -16,7 +16,7 @@ const variants = {
 
 export function ButtonLink({ href, children, variant = 'primary', className = '' }: ButtonLinkProps) {
   return (
-    <Link href={href} className={`pressable inline-flex min-h-12 items-center justify-center gap-2 rounded-[.6rem] border px-5 py-3 text-sm font-semibold ${variants[variant]} ${className}`}>
+    <Link href={href} data-flow-cta className={`pressable inline-flex min-h-12 items-center justify-center gap-2 rounded-[.6rem] border px-5 py-3 text-sm font-semibold ${variants[variant]} ${className}`}>
       {children}
     </Link>
   );

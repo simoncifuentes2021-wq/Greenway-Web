@@ -80,7 +80,7 @@ test('reduced motion disables smooth scrolling', async ({ page }) => {
   expect(heroFrames.every((frame) => !frame.transform || frame.transform === 'none')).toBe(true);
 });
 
-test('confirmed metrics animate when visible and finish at their approved values', async ({ page }) => {
+test('confirmed metrics animate once and retain their approved values on return', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/', { waitUntil: 'networkidle' });
   const metrics = page.locator('[aria-labelledby="impacto-title"] dd span[aria-hidden="true"]');
@@ -98,7 +98,7 @@ test('confirmed metrics animate when visible and finish at their approved values
   await page.waitForTimeout(150);
   await page.locator('[aria-labelledby="impacto-title"]').evaluate((element) => element.scrollIntoView({ behavior: 'instant', block: 'center' }));
   await page.waitForTimeout(250);
-  await expect(metrics.nth(2)).not.toHaveText('42.000');
+  await expect(metrics.nth(2)).toHaveText('42.000');
 });
 
 test('process timeline connects orbit edges and responds to keyboard selection', async ({ page }) => {

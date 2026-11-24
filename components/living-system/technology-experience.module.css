@@ -1,0 +1,12 @@
+.experience { min-width: 0; }
+.controls { display: none; }
+@media (max-width: 1099px) {
+  .experience { touch-action: pan-y; user-select: none; }
+  .experience figure { transition: opacity 500ms var(--ease-out), filter 500ms var(--ease-out); }
+  .experience[data-device='phone'] [data-device-plane='desktop'] { opacity: .58; }
+  .experience[data-device='phone'] [data-device-plane='phone'] { filter: drop-shadow(0 16px 24px rgb(0 0 0 / .45)); }
+  .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; align-items: center; margin-top: 4rem; }
+  .controls > span { flex-basis: 100%; text-align: center; font-size: .68rem; color: #d0ddc2; margin-bottom: .3rem; }
+  .controls button { min-height: 44px; border: 1px solid #8c9e80; border-radius: 2rem; padding: .6rem 1.2rem; font-size: .75rem; cursor: pointer; }
+  .controls button[aria-pressed='true'] { background: #c3d0ad; color: #163d35; }
+}

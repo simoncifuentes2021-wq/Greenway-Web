@@ -1,20 +1,24 @@
 import { ReferenceMedia } from '@/components/ui/reference-media';
+import { GreenwayFlow } from '@/components/living-system/greenway-flow';
+import styles from './purpose-section.module.css';
 
 export function PurposeSection() {
   return (
-    <section aria-labelledby="proposito-title" className="section-space bg-ivory">
-      <div className="container-site grid items-center gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
-        <ReferenceMedia src="/media/temporary/greenway-operations.jpg" alt="Referencia temporal de una operación de reciclaje en terreno" label="Operación en terreno" className="min-h-[420px] lg:min-h-[610px]" imageClassName="object-[58%_center]" />
-        <div>
-          <p className="eyebrow text-petroleum">Qué nos impulsa</p>
-          <h2 id="proposito-title" className="mt-5 max-w-3xl font-display text-[clamp(2.35rem,5vw,4.6rem)] font-semibold leading-[1.02] tracking-[-0.055em] text-forest">Celebrar sin dejar una huella negativa.</h2>
+    <section aria-labelledby="proposito-title" className={styles.section}>
+      <GreenwayFlow variant="connection" className={styles.path} />
+      <div className={`container-site ${styles.layout}`}>
+        <div className={styles.media}>
+        <span className={styles.caption}>01 / El terreno</span>
+        <ReferenceMedia src="/media/temporary/greenway-operations.jpg" alt="Referencia temporal de una operación de reciclaje en terreno" label="Operación en terreno" className={styles.photo} imageClassName="object-[58%_center]" />
+        </div>
+        <div className={styles.copy}>
+          <h2 id="proposito-title" data-story-heading className={styles.title}>¿Qué nos impulsa?</h2>
           <div className="mt-8 max-w-2xl space-y-5 text-[clamp(1.05rem,1.5vw,1.25rem)] leading-8 text-charcoal/78">
-            <p>Creemos que los eventos masivos pueden celebrarse sin dejar una huella negativa.</p>
-            <p>Trabajamos para transformar su impacto ambiental mediante soluciones que fomentan la economía circular, las energías limpias y el respeto por el entorno.</p>
-            <p>Buscamos que cada proyecto sea un ejemplo de responsabilidad y sustentabilidad.</p>
+            <p>Nos mueve la convicción de que cada evento puede ser una oportunidad para transformar e innovar, sin dejar una huella negativa.</p>
           </div>
         </div>
       </div>
+      <div className={`container-site ${styles.bridge}`}><span>Del propósito a la operación</span><a href="#ecosistema-title">Explora cómo se conecta <span aria-hidden="true">↓</span></a></div>
     </section>
   );
 }

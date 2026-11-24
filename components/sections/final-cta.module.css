@@ -1,0 +1,7 @@
+.section { position: relative; overflow: hidden; isolation: isolate; background: #e8eadc; border-top: 1px solid #d2d8c7; }
+.path { position: absolute; width: 70%; right: -20%; bottom: -35%; color: #7c8d66; opacity: .65; z-index: -1; }
+.title { margin-top: 1.5rem; max-width: 50rem; color: var(--forest); font-family: var(--font-manrope); font-size: clamp(3rem, 5.6vw, 5.5rem); font-weight: 520; letter-spacing: -.06em; line-height: 1.02; }
+.closing { display: flex; flex-direction: column; justify-content: space-between; align-items: end; padding: 5rem 0 2.5rem 3rem; color: var(--forest); }
+.closing > span:first-child, .closing p { font-size: .65rem; letter-spacing: .16em; text-transform: uppercase; }
+.arrow { font-family: var(--font-manrope); font-size: 12rem; font-weight: 300; line-height: 1; }
+@media (max-width: 1023px) { .closing { display: none; } .path { width: 120%; opacity: .35; } }

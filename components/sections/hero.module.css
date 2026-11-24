@@ -1,70 +1,36 @@
-.media {
-  transform-origin: center;
-  animation: hero-media-enter 1200ms var(--ease-out) both;
+.hero { position: relative; isolation: isolate; min-height: 100svh; background: var(--forest); color: white; overflow: clip; }
+.scene { min-height: 100svh; isolation: isolate; }
+.photoPlane { position: absolute; inset: -12px; z-index: -3; }
+.media { display: block; width: 100%; height: 100%; animation: hero-media-enter var(--motion-cinematic) var(--ease-out) both; }
+.image { width: 100%; height: 100%; object-fit: cover; object-position: 67% center; }
+.shade { position: absolute; inset: 0; z-index: -2; background: linear-gradient(180deg, rgb(6 20 17 / .46), transparent 28%, rgb(8 25 21 / .3) 48%, var(--forest) 100%), linear-gradient(90deg, rgb(5 18 15 / .38), transparent 80%); }
+.route { position: absolute; width: min(59vw, 55rem); right: -6%; top: 5%; z-index: -1; color: #dee6c9; opacity: .3; pointer-events: none; transform: rotate(-18deg); }
+.layout { display: flex; align-items: center; min-height: 100svh; padding-top: 7rem; padding-bottom: 4rem; }
+.content { width: 100%; max-width: 56rem; }
+.title, .description, .actions { animation: hero-content-enter 640ms var(--ease-out) both; }
+.title { margin: 0; font-family: var(--font-manrope); font-size: clamp(3rem, 5vw, 6.25rem); line-height: 1.04; font-weight: 700; letter-spacing: -.055em; text-wrap: balance; animation-delay: 170ms; }
+.bottomGrid { display: grid; gap: 1.8rem; margin-top: 1.6rem; }
+.description { max-width: 42rem; font-size: clamp(1rem, 1.4vw, 1.3rem); line-height: 1.6; color: #e1e7df; animation-delay: 240ms; }
+.actions { display: flex; align-items: center; gap: .8rem; animation-delay: 310ms; }
+.actions a { min-height: 3.5rem; }
+.reference { position: absolute; right: var(--page-gutter); bottom: 1rem; color: #d0dace; font-size: .57rem; letter-spacing: .07em; }
+@keyframes hero-media-enter { from { opacity: .72; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
+@keyframes hero-content-enter { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1099px) {
+  .layout { padding-top: 8rem; }
 }
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+@media (max-width: 639px) {
+  .layout { padding-top: 8rem; padding-bottom: 3.5rem; }
+  .title { font-size: clamp(2.75rem, 10vw, 4rem); line-height: 1.08; }
+  .bottomGrid { gap: 1.5rem; margin-top: 1.3rem; }
+  .image { object-position: center; }
+  .shade { background: linear-gradient(180deg, rgb(6 20 17 / .5), rgb(6 20 17 / .35) 20%, rgb(8 25 21 / .7) 48%, var(--forest) 98%); }
+  .route { width: 100vw; right: -30%; top: 0; opacity: .24; }
+  .description { font-size: .96rem; line-height: 1.7; max-width: 25rem; }
+  .actions { display: grid; grid-template-columns: 1fr; gap: .6rem; }
+  .actions a { min-height: 3rem; }
+  .reference { font-size: .5rem; bottom: 1rem; }
 }
-
-.eyebrow,
-.title,
-.description,
-.actions,
-.proof,
-.reference {
-  animation: hero-content-enter 640ms var(--ease-out) both;
-}
-
-.eyebrow { animation-delay: 100ms; }
-.title { animation-delay: 170ms; }
-.description { animation-delay: 240ms; }
-.actions { animation-delay: 310ms; }
-.proof { animation-delay: 390ms; }
-.reference { animation-delay: 470ms; }
-
-.signal {
-  animation: hero-signal-enter 520ms var(--ease-out) 520ms both;
-}
-
-@media (min-width: 640px) {
-  .image {
-    object-position: 67% center;
-  }
-}
-
-@keyframes hero-media-enter {
-  from { opacity: .72; transform: scale(1.025); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes hero-content-enter {
-  from { opacity: 0; transform: translateY(1rem); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes hero-signal-enter {
-  from { opacity: .25; transform: scale(.92); }
-  to { opacity: 1; transform: scale(1); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .media,
-  .eyebrow,
-  .title,
-  .description,
-  .actions,
-  .proof,
-  .reference,
-  .signal {
-    animation: hero-reduced-enter 180ms ease both;
-  }
-
-  @keyframes hero-reduced-enter {
-    from { opacity: .78; }
-    to { opacity: 1; }
-  }
+  .media, .title, .description, .actions { animation: none; }
 }

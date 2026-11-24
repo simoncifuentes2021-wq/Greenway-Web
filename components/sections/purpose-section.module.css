@@ -1,0 +1,20 @@
+.section { position: relative; isolation: isolate; overflow: clip; padding-top: var(--section-space); background: var(--ivory); }
+.layout { display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(3rem, 8vw, 8rem); align-items: center; padding-bottom: 6rem; }
+.path { position: absolute; z-index: -1; width: 85%; right: -20%; top: -9%; color: #718266; opacity: .25; transform: rotate(30deg); }
+.caption { display: block; margin-bottom: 1.2rem; color: var(--petroleum); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; }
+.photo { min-height: clamp(28rem, 43vw, 40rem); border-radius: 0 7rem 0 0; }
+.copy { padding-top: 0; }
+.title { margin: 0; font-family: var(--font-manrope); font-size: clamp(3.4rem, 5.8vw, 6rem); font-weight: 700; line-height: 1.03; letter-spacing: -.055em; color: var(--forest); text-wrap: balance; }
+.bridge { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 2rem 5rem; border-top: 1px solid #c6cdbb; color: var(--forest); }
+.bridge::after { position: absolute; left: 50%; bottom: 0; height: 3.4rem; width: 1px; background: #a6b58a; content: ''; }
+.bridge > span { font-size: .62rem; text-transform: uppercase; letter-spacing: .16em; }
+.bridge a { display: inline-flex; align-items: center; gap: 1rem; min-height: 44px; font-size: .8rem; }
+@media (max-width: 767px) {
+  .layout { grid-template-columns: 1fr; gap: 2.3rem; padding-bottom: 3rem; }
+  .photo { min-height: 25rem; border-radius: 0 4rem 0 0; }
+  .copy { padding-top: 0; }
+  .title { font-size: clamp(2.7rem, 10vw, 4rem); }
+  .path { width: 150%; top: 22%; right: -75%; }
+  .bridge { gap: 1rem; }
+  .bridge > span { max-width: 8rem; line-height: 1.8; }
+}

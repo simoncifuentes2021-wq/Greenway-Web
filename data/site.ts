@@ -17,6 +17,7 @@ export const metrics: Metric[] = [
   { value: '+10', label: 'Años de experiencia', pending: false },
   { value: '500+', label: 'Proyectos', pending: false },
   { value: '42.000', label: 'Residuos gestionados', pending: false },
+  { value: '0', label: 'Emisiones reducidas', pending: true },
   { value: '200+', label: 'Clientes', pending: false },
 ];
 
@@ -39,5 +40,5 @@ export const contactInformation = { email: null, phone: null, address: null } as
 // TODO(cliente): agregar únicamente perfiles oficiales confirmados.
 export const socialLinks: NavigationItem[] = [];
 
-// TODO(cliente): reemplazar por la URL confirmada de EcoEvent 360.
+// TODO(cliente): reemplazar por la URL confirmada de AppGreenway.
 export const clientPortalUrl = '#portal-pendiente';
